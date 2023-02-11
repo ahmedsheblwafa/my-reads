@@ -1,16 +1,18 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { getAll, update } from '../API/booksAPI'
+import { getAll, search, update } from '../API/booksAPI'
 import { book } from '../components/Book/Book.component'
 import { RootState } from './store'
 
 export interface bookState {
     value: book[]
+    searchBooks: book[]
     loading: boolean
     error: boolean
 }
 
 const initialState: bookState = {
     value: [],
+    searchBooks: [],
     loading: false,
     error: false
 }
@@ -24,7 +26,27 @@ export const getAllBooks = createAsyncThunk('book/getAllBooks', async () => {
 export const updateBook = createAsyncThunk('book/updateBook', async (value: { book: book; shelf: string }) => {
     await update(value.book, value.shelf)
     // The value we return becomes the `fulfilled` action payload
-    return { book: value.book.id, shelf: value.shelf }
+    return { book: value.book, shelf: value.shelf }
+})
+
+export const searchBook = createAsyncThunk('book/searchBook', async (query: string, thunk) => {
+    const { getState } = thunk
+    // func takes id and return shelf if book added already else returns none
+    const getShelf = (id: string) => {
+        const x: any = getState()
+        const book: book = x.books.value.find((book: book) => book.id === id)
+        return book ? book.shelf : 'none'
+    }
+
+    if (query) {
+        const response = await search(query, 10)
+        // The value we return becomes the `fulfilled` action payload
+        // adding shelf to each book
+        const responseWithShelf = response.map((book: book) => ({ ...book, shelf: getShelf(book.id) }))
+        return responseWithShelf
+    } else {
+        return []
+    }
 })
 
 export const bookSlice = createSlice({
@@ -62,13 +84,40 @@ export const bookSlice = createSlice({
             .addCase(updateBook.fulfilled, (state, action) => {
                 state.loading = false
                 state.error = false
-                console.log(action.payload)
-                state.value = state.value.map((book) =>
-                    book.id === action.payload.book ? { ...book, shelf: action.payload.shelf } : book
+                const book = state.value.find((book: book) => book.id === action.payload.book.id)
+                if (book) {
+                    state.value = state.value.map((book) =>
+                        book.id === action.payload.book.id ? { ...book, shelf: action.payload.shelf } : book
+                    )
+                } else {
+                    state.value = [...state.value, { ...action.payload.book, shelf: action.payload.shelf }]
+                }
+
+                state.searchBooks = state.searchBooks.map((book: book) =>
+                    book.id === action.payload.book.id ? { ...book, shelf: action.payload.shelf } : book
                 )
-                // state.value = action.payload
             })
             .addCase(updateBook.rejected, (state) => {
+                state.error = true
+                state.loading = false
+            })
+            // ***********
+            // search book
+            // ***********
+            .addCase(searchBook.pending, (state) => {
+                state.loading = true
+                state.error = false
+            })
+            .addCase(searchBook.fulfilled, (state, action) => {
+                state.loading = false
+                state.error = false
+                if (!action.payload.error) {
+                    state.searchBooks = action.payload
+                } else {
+                    state.searchBooks = []
+                }
+            })
+            .addCase(searchBook.rejected, (state) => {
                 state.error = true
                 state.loading = false
             })

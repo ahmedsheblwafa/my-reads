@@ -13,7 +13,7 @@ export default function Book({ book }: Cprops) {
                         style={{
                             width: 128,
                             height: 193,
-                            backgroundImage: `url(${book.imageLinks.thumbnail})`
+                            backgroundImage: `url(${book?.imageLinks?.thumbnail})`
                         }}
                     ></div>
                     <StateMenue book={book} shelf={book.shelf} />

@@ -23,7 +23,7 @@ export default function StateMenue({ shelf, book }: Cprops) {
                 <option value="currentlyReading">{shelf === 'currentlyReading' ? '✓' : ''} Currently Reading</option>
                 <option value="wantToRead">{shelf === 'wantToRead' ? '✓' : ''} Want to Read</option>
                 <option value="read">{shelf === 'read' ? '✓' : ''} Read</option>
-                <option value="none">None</option>
+                {shelf !== 'none' ? <option value="none">None</option> : ''}
             </select>
         </div>
     )

@@ -19,7 +19,7 @@ export default function BookShelf({ title, shelfTag }: Cprops) {
             <div className="bookshelf-books">
                 <ol className="books-grid">
                     {books.map((book) => (
-                        <Book book={book} />
+                        <Book key={book.id} book={book} />
                     ))}
                 </ol>
             </div>
