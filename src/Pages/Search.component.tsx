@@ -14,14 +14,14 @@ export default function Search() {
     return (
         <div className="search-books">
             <div className="search-books-bar">
-                <a
+                <span
                     className="close-search"
                     onClick={() => {
                         navigate('/')
                     }}
                 >
                     Close
-                </a>
+                </span>
                 <div className="search-books-input-wrapper">
                     <input
                         onChange={(e) => {

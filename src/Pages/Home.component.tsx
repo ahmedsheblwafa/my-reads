@@ -16,7 +16,7 @@ export default function Home() {
                 </div>
             </div>
             <div className="open-search">
-                <a onClick={() => navigate('search')}>Add a book</a>
+                <span onClick={() => navigate('search')}>Add a book</span>
             </div>
         </div>
     )
