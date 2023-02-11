@@ -130,7 +130,7 @@ export const bookSlice = createSlice({
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
 
-export const bookState = (state: RootState) => state.books
+export const booksState = (state: RootState) => state.books
 
 // We can also write thunks by hand, which may contain both sync and async logic.
 // Here's an example of conditionally dispatching actions based on current state.

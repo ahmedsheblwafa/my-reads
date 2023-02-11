@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Book from '../components/Book/Book.component'
-import { bookState, searchBook } from '../Redux/bookSlice'
+import { booksState, searchBook } from '../Redux/bookSlice'
 import { useAppDispatch, useAppSelector } from '../Redux/hooks'
 
 export default function Search() {
@@ -10,7 +10,7 @@ export default function Search() {
     useEffect(() => {
         dispatch(searchBook(''))
     }, [dispatch])
-    const { searchBooks } = useAppSelector(bookState)
+    const { searchBooks } = useAppSelector(booksState)
     return (
         <div className="search-books">
             <div className="search-books-bar">

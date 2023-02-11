@@ -1,13 +1,13 @@
-import { bookState } from '../../Redux/bookSlice'
+import { booksState } from '../../Redux/bookSlice'
 import Book from '../Book/Book.component'
 import { book } from '../Book/Book.component'
-import { useAppSelector, useAppDispatch } from '../../Redux/hooks'
+import { useAppSelector } from '../../Redux/hooks'
 import { useEffect, useState } from 'react'
 
 type Cprops = { title: string; shelfTag: string }
 
 export default function BookShelf({ title, shelfTag }: Cprops) {
-    const { value } = useAppSelector(bookState)
+    const { value } = useAppSelector(booksState)
     const [books, setBooks] = useState<book[]>([])
     useEffect(() => {
         setBooks(value.filter((book) => book.shelf === shelfTag))
