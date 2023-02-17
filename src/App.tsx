@@ -2,9 +2,9 @@ import { useEffect } from 'react'
 import './App.css'
 import { useAppDispatch } from './Redux/hooks'
 import { getAllBooks } from './Redux/bookSlice'
-import Home from './Pages/Home.component'
+import Home from './Pages/Home/Home.component'
 import { Route, Routes } from 'react-router'
-import Search from './Pages/Search.component'
+import Search from './Pages/Search/Search.component'
 
 function App() {
     const dispatch = useAppDispatch()

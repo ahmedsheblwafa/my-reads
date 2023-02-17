@@ -1,8 +1,16 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import Book from '../components/Book/Book.component'
-import { booksState, searchBook } from '../Redux/bookSlice'
-import { useAppDispatch, useAppSelector } from '../Redux/hooks'
+import { BooksGrid } from '../../components/Book-shelf/StyledBookShelf'
+import Book from '../../components/Book/Book.component'
+import { booksState, searchBook } from '../../Redux/bookSlice'
+import { useAppDispatch, useAppSelector } from '../../Redux/hooks'
+import {
+    CloseSearch,
+    SearchBooksBar,
+    SearchBooksDiv,
+    SearchBooksInputWrapper,
+    SearchBooksResults
+} from './SearchStyled'
 
 export default function Search() {
     const navigate = useNavigate()
@@ -12,17 +20,17 @@ export default function Search() {
     }, [dispatch])
     const { searchBooks } = useAppSelector(booksState)
     return (
-        <div className="search-books">
-            <div className="search-books-bar">
-                <span
-                    className="close-search"
+        <SearchBooksDiv>
+            <SearchBooksBar>
+                <CloseSearch
                     onClick={() => {
                         navigate('/')
                     }}
                 >
-                    Close
-                </span>
-                <div className="search-books-input-wrapper">
+                    close
+                </CloseSearch>
+
+                <SearchBooksInputWrapper>
                     <input
                         onChange={(e) => {
                             dispatch(searchBook(e.currentTarget.value))
@@ -30,15 +38,16 @@ export default function Search() {
                         type="text"
                         placeholder="Search by title, author, or ISBN"
                     />
-                </div>
-            </div>
-            <div className="search-books-results">
-                <ol className="books-grid">
+                </SearchBooksInputWrapper>
+            </SearchBooksBar>
+
+            <SearchBooksResults>
+                <BooksGrid>
                     {searchBooks.map((book) => (
                         <Book key={book.id} book={book} />
                     ))}
-                </ol>
-            </div>
-        </div>
+                </BooksGrid>
+            </SearchBooksResults>
+        </SearchBooksDiv>
     )
 }

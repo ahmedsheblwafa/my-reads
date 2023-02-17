@@ -1,6 +1,7 @@
 import { updateBook } from '../../Redux/bookSlice'
 import { useAppDispatch } from '../../Redux/hooks'
 import { book } from '../Book/Book.component'
+import { BookShelfChanger, BookShelfChangerSelect } from './StyledStateMenue'
 
 type Cprops = {
     shelf: string
@@ -10,8 +11,8 @@ type Cprops = {
 export default function StateMenue({ shelf, book }: Cprops) {
     const dispatch = useAppDispatch()
     return (
-        <div className="book-shelf-changer">
-            <select
+        <BookShelfChanger>
+            <BookShelfChangerSelect
                 value={shelf}
                 onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
                     dispatch(updateBook({ book, shelf: e.currentTarget.value }))
@@ -24,7 +25,7 @@ export default function StateMenue({ shelf, book }: Cprops) {
                 <option value="wantToRead">{shelf === 'wantToRead' ? '✓' : ''} Want to Read</option>
                 <option value="read">{shelf === 'read' ? '✓' : ''} Read</option>
                 {shelf !== 'none' ? <option value="none">None</option> : ''}
-            </select>
-        </div>
+            </BookShelfChangerSelect>
+        </BookShelfChanger>
     )
 }

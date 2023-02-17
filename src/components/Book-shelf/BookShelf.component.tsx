@@ -3,6 +3,7 @@ import Book from '../Book/Book.component'
 import { book } from '../Book/Book.component'
 import { useAppSelector } from '../../Redux/hooks'
 import { useEffect, useState } from 'react'
+import { BooksGrid, BookShelfBooks, BookshelfDiv, BookShelfTitle } from './StyledBookShelf'
 
 type Cprops = { title: string; shelfTag: string }
 
@@ -14,15 +15,15 @@ export default function BookShelf({ title, shelfTag }: Cprops) {
     }, [value, shelfTag])
 
     return (
-        <div className="bookshelf">
-            <h2 className="bookshelf-title">{title}</h2>
-            <div className="bookshelf-books">
-                <ol className="books-grid">
+        <BookshelfDiv>
+            <BookShelfTitle>{title}</BookShelfTitle>
+            <BookShelfBooks>
+                <BooksGrid>
                     {books.map((book) => (
                         <Book key={book.id} book={book} />
                     ))}
-                </ol>
-            </div>
-        </div>
+                </BooksGrid>
+            </BookShelfBooks>
+        </BookshelfDiv>
     )
 }

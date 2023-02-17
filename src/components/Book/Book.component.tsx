@@ -1,26 +1,20 @@
 import StateMenue from '../State-menue/StateMenue.component'
-export type book = { title: string; imageLinks: { thumbnail: string }; author: string; id: string; shelf: string }
+import { BookAuthorsDiv, BookCoverDiv, BookDiv, BookListItem, BookTitleDiv, BookTopDiv } from './BookStyled'
+export type book = { title: string; imageLinks: { thumbnail: string }; authors: string[]; id: string; shelf: string }
 
 type Cprops = { book: book }
 
 export default function Book({ book }: Cprops) {
     return (
-        <li>
-            <div className="book">
-                <div className="book-top">
-                    <div
-                        className="book-cover"
-                        style={{
-                            width: 128,
-                            height: 193,
-                            backgroundImage: `url(${book?.imageLinks?.thumbnail})`
-                        }}
-                    ></div>
+        <BookListItem>
+            <BookDiv>
+                <BookTopDiv>
+                    <BookCoverDiv img={book?.imageLinks?.thumbnail}></BookCoverDiv>
                     <StateMenue book={book} shelf={book.shelf} />
-                </div>
-                <div className="book-title">{book.title}</div>
-                <div className="book-authors">{book.author}</div>
-            </div>
-        </li>
+                </BookTopDiv>
+                <BookTitleDiv>{book?.title}</BookTitleDiv>
+                <BookAuthorsDiv>{book.authors[0] || ''}</BookAuthorsDiv>
+            </BookDiv>
+        </BookListItem>
     )
 }
